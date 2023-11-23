@@ -24,7 +24,7 @@ const Page: NextPage = () => {
   const [filter, setFilter] = useState<string | null>();
   const [sort, setSort] = useState<string | null>();
 
-  const { playFootstepsForThreeSeconds } = useFootsteps();
+  const { playSoundsForThreeSeconds } = useFootsteps();
 
   const sortedGhosts = useMemo(() => {
     if (sort === null) return ghosts;
@@ -115,9 +115,7 @@ const Page: NextPage = () => {
                 </Text>
                 <Group gap="xs">
                   <Badge
-                    onClick={() =>
-                      playFootstepsForThreeSeconds(params.highSpeed)
-                    }
+                    onClick={() => playSoundsForThreeSeconds(params.highSpeed)}
                     component="button"
                     styles={{
                       root: {
@@ -137,9 +135,7 @@ const Page: NextPage = () => {
                     m/s
                   </Badge>
                   <Badge
-                    onClick={() =>
-                      playFootstepsForThreeSeconds(params.lowSpeed)
-                    }
+                    onClick={() => playSoundsForThreeSeconds(params.lowSpeed)}
                     component="button"
                     styles={{
                       root: {

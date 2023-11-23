@@ -4,6 +4,14 @@ import { useState, useCallback, useEffect } from 'react';
 
 const BASE_TEMPO = 9.2 as const;
 
+const playFootsteps = () => {
+  const footsteps = new Audio('/sounds/footsteps.mp3');
+  footsteps.play();
+  footsteps.onended = () => {
+    footsteps.src = '';
+  };
+};
+
 export const useFootsteps = () => {
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout>();
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout>();
@@ -27,36 +35,34 @@ export const useFootsteps = () => {
   }, [intervalId]);
 
   // 特定の間隔で足音を再生する関数
-  const playFootsteps = (speed: number, speedModifier = 1.0) => {
-    if (intervalId) stopSounds();
+  const playSounds = useCallback(
+    (speed: number, speedModifier = 1.0) => {
+      stopSounds();
 
-    const footsteps = new Audio('/sounds/footsteps.mp3');
-    footsteps.play();
-    footsteps.onended = () => {
-      footsteps.src = '';
-    };
+      playFootsteps();
 
-    const interval = calcInterval(speed, speedModifier);
-    const _intervalId = setInterval(() => {
-      const footsteps = new Audio('/sounds/footsteps.mp3');
-      footsteps.play();
-      footsteps.onended = () => {
-        footsteps.src = '';
-      };
-    }, interval);
-    setIntervalId(_intervalId);
-  };
+      const interval = calcInterval(speed, speedModifier);
+      const _intervalId = setInterval(() => {
+        playFootsteps();
+      }, interval);
+      setIntervalId(_intervalId);
+    },
+    [stopSounds],
+  );
 
   // 特定の時間のみ足音を再生する関数
-  const playFootstepsForThreeSeconds = (speed: number, speedModifier = 1.0) => {
-    playFootsteps(speed, speedModifier);
+  const playSoundsForThreeSeconds = useCallback(
+    (speed: number, speedModifier = 1.0) => {
+      playSounds(speed, speedModifier);
 
-    if (timeoutId) clearTimeout(timeoutId);
-    const _timeoutId = setTimeout(() => {
-      stopSounds();
-    }, 3 * 1000);
-    setTimeoutId(_timeoutId);
-  };
+      if (timeoutId) clearTimeout(timeoutId);
+      const _timeoutId = setTimeout(() => {
+        stopSounds();
+      }, 3 * 1000);
+      setTimeoutId(_timeoutId);
+    },
+    [playSounds, stopSounds, timeoutId],
+  );
 
   useEffect(() => {
     return () => {
@@ -66,8 +72,8 @@ export const useFootsteps = () => {
   }, [intervalId, stopSounds, timeoutId]);
 
   return {
-    playFootsteps,
-    playFootstepsForThreeSeconds,
+    playSounds,
+    playSoundsForThreeSeconds,
     stopSounds,
   };
 };
