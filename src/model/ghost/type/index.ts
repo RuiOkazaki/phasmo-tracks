@@ -1,10 +1,13 @@
+import { tagNames } from '../constants';
+
 export type GhostParameter = {
   id: number;
   enName: string;
-  jpName: string;
+  jaName: string;
   description: string;
   lowSpeed: number;
   highSpeed: number;
+  tags: Tag[];
 };
 
 // calculateSpeedの引数
@@ -21,4 +24,14 @@ export type CalculateSpeedArgs = {
   san: number;
   // 開始してからの経過時間(分)
   elapsedTime: number;
+};
+
+export type TagJaName = (typeof tagNames)[keyof typeof tagNames];
+
+export type Tag = {
+  jaName: TagJaName;
+};
+
+export type Tags = {
+  [Key in keyof typeof tagNames]: Tag;
 };

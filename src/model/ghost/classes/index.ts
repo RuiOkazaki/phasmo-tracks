@@ -1,3 +1,4 @@
+import { tags } from '../constants';
 import { GhostParameter, CalculateSpeedArgs } from '../type';
 
 abstract class Ghost {
@@ -15,17 +16,19 @@ class Jinn extends Ghost {
     super({
       id: 1,
       enName: 'Jinn',
-      jpName: 'ジン',
-      description: '3mの範囲に入ると減速する',
+      jaName: 'ジン',
+      description:
+        'ジンがターゲットを認識している状態で3mの範囲に入ると減速する',
       lowSpeed: 1.7,
       highSpeed: 2.5,
+      tags: [tags.distance, tags.looking],
     });
   }
 
-  calculateSpeed({ distance }: CalculateSpeedArgs): number {
+  calculateSpeed({ distance, isLooking }: CalculateSpeedArgs): number {
     const { highSpeed, lowSpeed } = this.params;
 
-    if (distance >= 3) {
+    if (isLooking && distance >= 3) {
       return highSpeed;
     } else {
       return lowSpeed;
@@ -38,10 +41,11 @@ class Revenant extends Ghost {
     super({
       id: 2,
       enName: 'Revenant',
-      jpName: 'レヴナント',
+      jaName: 'レヴナント',
       description: 'プレイヤーを見付けると加速する',
       lowSpeed: 1.5,
       highSpeed: 2.5,
+      tags: [tags.looking],
     });
   }
 
@@ -61,10 +65,11 @@ class Hantu extends Ghost {
     super({
       id: 3,
       enName: 'Hantu',
-      jpName: 'ハントゥ',
+      jaName: 'ハントゥ',
       description: '気温が低いと加速する',
       lowSpeed: 1.44,
       highSpeed: 2.7,
+      tags: [tags.temperature],
     });
   }
 
@@ -89,10 +94,11 @@ class Myling extends Ghost {
     super({
       id: 4,
       enName: 'Myling',
-      jpName: 'マイリング',
+      jaName: 'マイリング',
       description: 'プレイヤーから12m以上離れている場合足音が聞こえない',
       lowSpeed: -1,
       highSpeed: 1.7,
+      tags: [tags.distance],
     });
   }
 
@@ -113,10 +119,11 @@ class TheTwins extends Ghost {
     super({
       id: 5,
       enName: 'The Twins',
-      jpName: 'ツインズ',
+      jaName: 'ツインズ',
       description: '足の速いゴーストと遅いゴーストがいる',
       lowSpeed: 1.53,
       highSpeed: 1.87,
+      tags: [],
     });
   }
 
@@ -136,10 +143,11 @@ class Raiju extends Ghost {
     super({
       id: 6,
       enName: 'Raiju',
-      jpName: 'ライジュウ',
+      jaName: 'ライジュウ',
       description: '6m以内に電子機器があると加速する',
       lowSpeed: 1.7,
       highSpeed: 2.5,
+      tags: [tags.electronic],
     });
   }
 
@@ -159,10 +167,11 @@ class Moroi extends Ghost {
     super({
       id: 7,
       enName: 'Moroi',
-      jpName: 'モーロイ',
+      jaName: 'モーロイ',
       description: 'SAN値が低いと加速する',
       lowSpeed: 1.5,
       highSpeed: 2.25,
+      tags: [tags.san],
     });
   }
 
@@ -187,10 +196,11 @@ class Deogen extends Ghost {
     super({
       id: 8,
       enName: 'Deogen',
-      jpName: 'デオヘン',
+      jaName: 'デオヘン',
       description: 'ターゲットとの距離が近いほど減速する',
       lowSpeed: 0.4,
       highSpeed: 3,
+      tags: [tags.distance],
     });
   }
 
@@ -216,10 +226,11 @@ class Thaye extends Ghost {
     super({
       id: 9,
       enName: 'Thaye',
-      jpName: 'セーイ',
+      jaName: 'セーイ',
       description: '経過時間共に減速していく。上限10分',
       lowSpeed: 1,
       highSpeed: 2.75,
+      tags: [tags.elapsedTime],
     });
   }
 

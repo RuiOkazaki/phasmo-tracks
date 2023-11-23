@@ -2,10 +2,11 @@
 
 import {
   Badge,
-  Box,
   Button,
   Card,
   Group,
+  Overlay,
+  Select,
   SimpleGrid,
   Stack,
   Text,
@@ -13,20 +14,78 @@ import {
 } from '@mantine/core';
 import { NextPage } from 'next';
 import Link from 'next/link';
+import { useMemo, useState } from 'react';
 
 import { ghosts } from '@/model/ghost/classes';
+import { tagNames } from '@/model/ghost/constants/index';
 
 const Page: NextPage = () => {
+  const [filter, setFilter] = useState<string | null>();
+  const [sort, setSort] = useState<string | null>();
+
+  const sortedGhosts = useMemo(() => {
+    if (sort === null) return ghosts;
+
+    return ghosts.toSorted((a, b) => {
+      if (sort === '最大速度の昇順') {
+        return a.params.highSpeed - b.params.highSpeed;
+      }
+      if (sort === '最大速度の降順') {
+        return b.params.highSpeed - a.params.highSpeed;
+      }
+      if (sort === '最小速度の昇順') {
+        return a.params.lowSpeed - b.params.lowSpeed;
+      }
+      if (sort === '最小速度の降順') {
+        return b.params.lowSpeed - a.params.lowSpeed;
+      }
+      return 0;
+    });
+  }, [sort]);
+
   return (
     <>
-      <Box>
-        <Text>Ghosts</Text>
+      <Stack>
+        <Group align="center" justify="space-between">
+          <Title order={2}>足の速さで特定出来るゴースト一覧</Title>
+          <Group>
+            <Select
+              label="ソート"
+              placeholder="値を選択してください"
+              data={[
+                {
+                  group: '最大速度',
+                  items: ['最大速度の昇順', '最大速度の降順'],
+                },
+                {
+                  group: '最小速度',
+                  items: ['最小速度の昇順', '最小速度の降順'],
+                },
+              ]}
+              value={sort ?? null}
+              onChange={setSort}
+              clearable
+              searchable
+              nothingFoundMessage="見つかりませんでした"
+            />
+            <Select
+              label="フィルター"
+              placeholder="値を選択してください"
+              data={Object.values(tagNames)}
+              value={filter ?? null}
+              onChange={setFilter}
+              clearable
+              searchable
+              nothingFoundMessage="見つかりませんでした"
+            />
+          </Group>
+        </Group>
         <SimpleGrid
-          cols={{ base: 1, sm: 2, lg: 3 }}
+          cols={{ base: 1, sm: 2, lg: 3, xl: 4 }}
           spacing={{ base: 'md', sm: 'lg' }}
           verticalSpacing={{ base: 'md', sm: 'lg' }}
         >
-          {ghosts.map(({ params }) => (
+          {sortedGhosts.map(({ params }) => (
             <Card
               key={params.id}
               shadow="sm"
@@ -35,26 +94,38 @@ const Page: NextPage = () => {
               withBorder
             >
               <Card.Section withBorder inheritPadding py="xs">
-                <Group justify="space-between">
-                  <Title order={3}>{params.jpName}</Title>
-                  <Badge color="pink" variant="light">
-                    On Sale
-                  </Badge>
+                <Group justify="space-between" align="center">
+                  <Title order={3}>{params.jaName}</Title>
+                  <Group gap="xs">
+                    {params.tags.map((tag) => (
+                      <Badge key={tag.jaName} color="red" size="lg">
+                        {tag.jaName}
+                      </Badge>
+                    ))}
+                  </Group>
                 </Group>
               </Card.Section>
+
               <Stack gap="sm" pt="md">
-                <Text size="sm" c="dimmed">
+                <Text size="md" c="dimmed" mih={'calc(1rem * 1.55 * 2)'}>
                   {params.description}
                 </Text>
                 <Group gap="xs">
                   <Badge
+                    onClick={() => {
+                      console.log(`${params.jaName}のlowSpeedの足音を鳴らす`);
+                    }}
+                    component="button"
                     styles={{
+                      root: {
+                        cursor: 'pointer',
+                      },
                       label: {
                         textTransform: 'none',
                       },
                     }}
                     radius="xs"
-                    size="md"
+                    size="lg"
                     color="green"
                     variant="dot"
                   >
@@ -63,13 +134,20 @@ const Page: NextPage = () => {
                     m/s
                   </Badge>
                   <Badge
+                    onClick={() => {
+                      console.log(`${params.jaName}のhighSpeedの足音を鳴らす`);
+                    }}
+                    component="button"
                     styles={{
+                      root: {
+                        cursor: 'pointer',
+                      },
                       label: {
                         textTransform: 'none',
                       },
                     }}
                     radius="xs"
-                    size="md"
+                    size="lg"
                     color="blue"
                     variant="dot"
                   >
@@ -90,10 +168,14 @@ const Page: NextPage = () => {
                   詳細を見る
                 </Button>
               </Stack>
+
+              {filter && !params.tags.some((tag) => tag.jaName === filter) && (
+                <Overlay />
+              )}
             </Card>
           ))}
         </SimpleGrid>
-      </Box>
+      </Stack>
     </>
   );
 };
