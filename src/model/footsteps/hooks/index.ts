@@ -37,6 +37,8 @@ export const useFootsteps = () => {
   // 特定の間隔で足音を再生する関数
   const playSounds = useCallback(
     (speed: number, speedModifier = 1.0) => {
+      if (speed < 0) return;
+
       stopSounds();
 
       playFootsteps();

@@ -119,7 +119,7 @@ const Page: NextPage = () => {
                     component="button"
                     styles={{
                       root: {
-                        cursor: 'pointer',
+                        cursor: params.highSpeed >= 0 ? 'pointer' : 'default',
                       },
                       label: {
                         textTransform: 'none',
@@ -128,6 +128,7 @@ const Page: NextPage = () => {
                     radius="xs"
                     size="lg"
                     color="blue"
+                    disabled={params.highSpeed < 0}
                     variant="dot"
                   >
                     Max:
@@ -139,7 +140,7 @@ const Page: NextPage = () => {
                     component="button"
                     styles={{
                       root: {
-                        cursor: 'pointer',
+                        cursor: params.lowSpeed >= 0 ? 'pointer' : 'default',
                       },
                       label: {
                         textTransform: 'none',
@@ -148,6 +149,7 @@ const Page: NextPage = () => {
                     radius="xs"
                     size="lg"
                     color="green"
+                    disabled={params.lowSpeed < 0}
                     variant="dot"
                   >
                     Min:
