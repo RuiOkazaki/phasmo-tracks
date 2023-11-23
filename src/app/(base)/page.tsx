@@ -29,7 +29,8 @@ const Page: NextPage = () => {
   const sortedGhosts = useMemo(() => {
     if (sort === null) return ghosts;
 
-    return ghosts.toSorted((a, b) => {
+    // TODO: https://github.com/vercel/next.js/pull/58421
+    return [...ghosts].sort((a, b) => {
       if (sort === sortLabel.maxSpeedAsc) {
         return a.params.highSpeed - b.params.highSpeed;
       }
