@@ -18,6 +18,9 @@ const page: NextPage = () => {
     intervalId = setInterval(() => {
       const footsteps = new Audio('/sounds/footsteps.mp3');
       footsteps.play();
+      footsteps.onended = () => {
+        footsteps.src = '';
+      };
     }, interval);
   };
 
