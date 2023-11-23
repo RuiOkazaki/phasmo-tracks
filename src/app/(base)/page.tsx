@@ -16,12 +16,15 @@ import { NextPage } from 'next';
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 
+import { useFootsteps } from '@/model/footsteps/hooks';
 import { ghosts } from '@/model/ghost/classes';
-import { tagNames, sortLabel } from '@/model/ghost/constants/index';
+import { tagNames, sortLabel } from '@/model/ghost/constants';
 
 const Page: NextPage = () => {
   const [filter, setFilter] = useState<string | null>();
   const [sort, setSort] = useState<string | null>();
+
+  const { playFootstepsForThreeSeconds } = useFootsteps();
 
   const sortedGhosts = useMemo(() => {
     if (sort === null) return ghosts;
@@ -112,9 +115,9 @@ const Page: NextPage = () => {
                 </Text>
                 <Group gap="xs">
                   <Badge
-                    onClick={() => {
-                      console.log(`${params.jaName}のhighSpeedの足音を鳴らす`);
-                    }}
+                    onClick={() =>
+                      playFootstepsForThreeSeconds(params.highSpeed)
+                    }
                     component="button"
                     styles={{
                       root: {
@@ -134,9 +137,9 @@ const Page: NextPage = () => {
                     m/s
                   </Badge>
                   <Badge
-                    onClick={() => {
-                      console.log(`${params.jaName}のlowSpeedの足音を鳴らす`);
-                    }}
+                    onClick={() =>
+                      playFootstepsForThreeSeconds(params.lowSpeed)
+                    }
                     component="button"
                     styles={{
                       root: {
