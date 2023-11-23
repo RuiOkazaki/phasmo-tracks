@@ -1,4 +1,4 @@
-import { Box, ColorSchemeScript } from '@mantine/core';
+import { ColorSchemeScript } from '@mantine/core';
 import '@mantine/core/styles.css';
 
 import { CustomMantineProvider } from '@/libs/mantine/provider';
@@ -14,11 +14,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       </head>
       <body className={LINESeedJP.className}>
         <CustomMantineProvider>
-          <Box h={'100dvh'}>
-            <Box component="main" px={'md'}>
-              {children}
-            </Box>
-          </Box>
+          <main>{children}</main>
         </CustomMantineProvider>
       </body>
     </html>
