@@ -2,6 +2,7 @@ export type GhostParameter = {
   id: number;
   enName: string;
   jpName: string;
+  description: string;
   lowSpeed: number;
   highSpeed: number;
 };

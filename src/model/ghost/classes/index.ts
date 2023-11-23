@@ -16,6 +16,7 @@ class Jinn extends Ghost {
       id: 1,
       enName: 'Jinn',
       jpName: 'ジン',
+      description: '3mの範囲に入ると減速する',
       lowSpeed: 1.7,
       highSpeed: 2.5,
     });
@@ -38,6 +39,7 @@ class Revenant extends Ghost {
       id: 2,
       enName: 'Revenant',
       jpName: 'レヴナント',
+      description: 'プレイヤーを見付けると加速する',
       lowSpeed: 1.5,
       highSpeed: 2.5,
     });
@@ -60,6 +62,7 @@ class Hantu extends Ghost {
       id: 3,
       enName: 'Hantu',
       jpName: 'ハントゥ',
+      description: '気温が低いと加速する',
       lowSpeed: 1.44,
       highSpeed: 2.7,
     });
@@ -87,6 +90,7 @@ class Myling extends Ghost {
       id: 4,
       enName: 'Myling',
       jpName: 'マイリング',
+      description: 'プレイヤーから12m以上離れている場合足音が聞こえない',
       lowSpeed: -1,
       highSpeed: 1.7,
     });
@@ -110,6 +114,7 @@ class TheTwins extends Ghost {
       id: 5,
       enName: 'The Twins',
       jpName: 'ツインズ',
+      description: '足の速いゴーストと遅いゴーストがいる',
       lowSpeed: 1.53,
       highSpeed: 1.87,
     });
@@ -132,6 +137,7 @@ class Raiju extends Ghost {
       id: 6,
       enName: 'Raiju',
       jpName: 'ライジュウ',
+      description: '6m以内に電子機器があると加速する',
       lowSpeed: 1.7,
       highSpeed: 2.5,
     });
@@ -154,6 +160,7 @@ class Moroi extends Ghost {
       id: 7,
       enName: 'Moroi',
       jpName: 'モーロイ',
+      description: 'SAN値が低いと加速する',
       lowSpeed: 1.5,
       highSpeed: 2.25,
     });
@@ -181,6 +188,7 @@ class Deogen extends Ghost {
       id: 8,
       enName: 'Deogen',
       jpName: 'デオヘン',
+      description: 'ターゲットとの距離が近いほど減速する',
       lowSpeed: 0.4,
       highSpeed: 3,
     });
@@ -209,6 +217,7 @@ class Thaye extends Ghost {
       id: 9,
       enName: 'Thaye',
       jpName: 'セーイ',
+      description: '経過時間共に減速していく。上限10分',
       lowSpeed: 1,
       highSpeed: 2.75,
     });
