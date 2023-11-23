@@ -17,7 +17,7 @@ import Link from 'next/link';
 import { useMemo, useState } from 'react';
 
 import { ghosts } from '@/model/ghost/classes';
-import { tagNames } from '@/model/ghost/constants/index';
+import { tagNames, sortLabel } from '@/model/ghost/constants/index';
 
 const Page: NextPage = () => {
   const [filter, setFilter] = useState<string | null>();
@@ -27,16 +27,16 @@ const Page: NextPage = () => {
     if (sort === null) return ghosts;
 
     return ghosts.toSorted((a, b) => {
-      if (sort === '最大速度の昇順') {
+      if (sort === sortLabel.maxSpeedAsc) {
         return a.params.highSpeed - b.params.highSpeed;
       }
-      if (sort === '最大速度の降順') {
+      if (sort === sortLabel.maxSpeedDesc) {
         return b.params.highSpeed - a.params.highSpeed;
       }
-      if (sort === '最小速度の昇順') {
+      if (sort === sortLabel.minSpeedAsc) {
         return a.params.lowSpeed - b.params.lowSpeed;
       }
-      if (sort === '最小速度の降順') {
+      if (sort === sortLabel.minSpeedDesc) {
         return b.params.lowSpeed - a.params.lowSpeed;
       }
       return 0;
@@ -55,11 +55,11 @@ const Page: NextPage = () => {
               data={[
                 {
                   group: '最大速度',
-                  items: ['最大速度の昇順', '最大速度の降順'],
+                  items: [sortLabel.maxSpeedAsc, sortLabel.maxSpeedDesc],
                 },
                 {
                   group: '最小速度',
-                  items: ['最小速度の昇順', '最小速度の降順'],
+                  items: [sortLabel.minSpeedAsc, sortLabel.minSpeedDesc],
                 },
               ]}
               value={sort ?? null}
@@ -113,28 +113,6 @@ const Page: NextPage = () => {
                 <Group gap="xs">
                   <Badge
                     onClick={() => {
-                      console.log(`${params.jaName}のlowSpeedの足音を鳴らす`);
-                    }}
-                    component="button"
-                    styles={{
-                      root: {
-                        cursor: 'pointer',
-                      },
-                      label: {
-                        textTransform: 'none',
-                      },
-                    }}
-                    radius="xs"
-                    size="lg"
-                    color="green"
-                    variant="dot"
-                  >
-                    Min:
-                    {params.lowSpeed}
-                    m/s
-                  </Badge>
-                  <Badge
-                    onClick={() => {
                       console.log(`${params.jaName}のhighSpeedの足音を鳴らす`);
                     }}
                     component="button"
@@ -153,6 +131,28 @@ const Page: NextPage = () => {
                   >
                     Max:
                     {params.highSpeed}
+                    m/s
+                  </Badge>
+                  <Badge
+                    onClick={() => {
+                      console.log(`${params.jaName}のlowSpeedの足音を鳴らす`);
+                    }}
+                    component="button"
+                    styles={{
+                      root: {
+                        cursor: 'pointer',
+                      },
+                      label: {
+                        textTransform: 'none',
+                      },
+                    }}
+                    radius="xs"
+                    size="lg"
+                    color="green"
+                    variant="dot"
+                  >
+                    Min:
+                    {params.lowSpeed}
                     m/s
                   </Badge>
                 </Group>

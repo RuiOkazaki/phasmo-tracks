@@ -29,3 +29,10 @@ export const tags: Tags = {
     jaName: tagNames.elapsedTime,
   },
 };
+
+export const sortLabel = {
+  maxSpeedAsc: '最大速度の昇順',
+  maxSpeedDesc: '最大速度の降順',
+  minSpeedAsc: '最小速度の昇順',
+  minSpeedDesc: '最小速度の降順',
+} as const;
