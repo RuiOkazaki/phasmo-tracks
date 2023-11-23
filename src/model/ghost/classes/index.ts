@@ -1,26 +1,4 @@
-type GhostParameter = {
-  id: number;
-  enName: string;
-  jpName: string;
-  lowSpeed: number;
-  highSpeed: number;
-};
-
-// calculateSpeedの引数
-type CalculateSpeedArgs = {
-  // プレイヤーとの距離(m)
-  distance: number;
-  // プレイヤーを見ているかどうか
-  isLooking: boolean;
-  // 気温
-  temperature: number;
-  // 近くに電源が入っている電子機器があるかどうか
-  isElectronic: boolean;
-  // SAN値
-  san: number;
-  // 開始してからの経過時間(分)
-  elapsedTime: number;
-};
+import { GhostParameter, CalculateSpeedArgs } from '../type';
 
 abstract class Ghost {
   params: GhostParameter;
@@ -249,3 +227,15 @@ class Thaye extends Ghost {
     }
   }
 }
+
+export const ghosts: Ghost[] = [
+  new Jinn(),
+  new Revenant(),
+  new Hantu(),
+  new Myling(),
+  new TheTwins(),
+  new Raiju(),
+  new Moroi(),
+  new Deogen(),
+  new Thaye(),
+];
