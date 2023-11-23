@@ -1,9 +1,13 @@
-type Params = {
+type GhostParameter = {
   id: number;
   enName: string;
   jpName: string;
   lowSpeed: number;
   highSpeed: number;
+};
+
+// calculateSpeedの引数
+type CalculateSpeedArgs = {
   // プレイヤーとの距離(m)
   distance: number;
   // プレイヤーを見ているかどうか
@@ -18,34 +22,19 @@ type Params = {
   elapsedTime: number;
 };
 
-const DEFUALT_PARAMS: Params = {
-  id: 0,
-  enName: 'Jhon Doe',
-  jpName: '名無し',
-  lowSpeed: 0,
-  highSpeed: 0,
-  distance: 0,
-  isLooking: false,
-  temperature: 20,
-  isElectronic: false,
-  san: 100,
-  elapsedTime: 0,
-};
-
 abstract class Ghost {
-  params: Params;
+  params: GhostParameter;
 
-  constructor(params: Params) {
+  constructor(params: GhostParameter) {
     this.params = params;
   }
 
-  abstract calculateSpeed(): number;
+  abstract calculateSpeed(calculateSpeedArgs: CalculateSpeedArgs): number;
 }
 
 class Jinn extends Ghost {
   constructor() {
     super({
-      ...DEFUALT_PARAMS,
       id: 1,
       enName: 'Jinn',
       jpName: 'ジン',
@@ -54,8 +43,8 @@ class Jinn extends Ghost {
     });
   }
 
-  calculateSpeed(): number {
-    const { highSpeed, lowSpeed, distance } = this.params;
+  calculateSpeed({ distance }: CalculateSpeedArgs): number {
+    const { highSpeed, lowSpeed } = this.params;
 
     if (distance >= 3) {
       return highSpeed;
@@ -68,7 +57,6 @@ class Jinn extends Ghost {
 class Revenant extends Ghost {
   constructor() {
     super({
-      ...DEFUALT_PARAMS,
       id: 2,
       enName: 'Revenant',
       jpName: 'レヴナント',
@@ -77,8 +65,8 @@ class Revenant extends Ghost {
     });
   }
 
-  calculateSpeed(): number {
-    const { highSpeed, lowSpeed, isLooking } = this.params;
+  calculateSpeed({ isLooking }: CalculateSpeedArgs): number {
+    const { highSpeed, lowSpeed } = this.params;
 
     if (isLooking) {
       return highSpeed;
@@ -91,7 +79,6 @@ class Revenant extends Ghost {
 class Hantu extends Ghost {
   constructor() {
     super({
-      ...DEFUALT_PARAMS,
       id: 3,
       enName: 'Hantu',
       jpName: 'ハントゥ',
@@ -100,8 +87,8 @@ class Hantu extends Ghost {
     });
   }
 
-  calculateSpeed(): number {
-    const { highSpeed, lowSpeed, temperature } = this.params;
+  calculateSpeed({ temperature }: CalculateSpeedArgs): number {
+    const { highSpeed, lowSpeed } = this.params;
 
     // 15度以上の場合はlowSpeed
     // 0度以下の場合はhighSpeed
@@ -119,7 +106,6 @@ class Hantu extends Ghost {
 class Myling extends Ghost {
   constructor() {
     super({
-      ...DEFUALT_PARAMS,
       id: 4,
       enName: 'Myling',
       jpName: 'マイリング',
@@ -128,8 +114,8 @@ class Myling extends Ghost {
     });
   }
 
-  calculateSpeed(): number {
-    const { highSpeed, lowSpeed, distance } = this.params;
+  calculateSpeed({ distance }: CalculateSpeedArgs): number {
+    const { highSpeed, lowSpeed } = this.params;
 
     if (distance >= 12) {
       // 12m以上離れている場合は、音が聞こえない
@@ -143,7 +129,6 @@ class Myling extends Ghost {
 class TheTwins extends Ghost {
   constructor() {
     super({
-      ...DEFUALT_PARAMS,
       id: 5,
       enName: 'The Twins',
       jpName: 'ツインズ',
@@ -166,7 +151,6 @@ class TheTwins extends Ghost {
 class Raiju extends Ghost {
   constructor() {
     super({
-      ...DEFUALT_PARAMS,
       id: 6,
       enName: 'Raiju',
       jpName: 'ライジュウ',
@@ -175,8 +159,8 @@ class Raiju extends Ghost {
     });
   }
 
-  calculateSpeed(): number {
-    const { highSpeed, lowSpeed, isElectronic } = this.params;
+  calculateSpeed({ isElectronic }: CalculateSpeedArgs): number {
+    const { highSpeed, lowSpeed } = this.params;
 
     if (isElectronic) {
       return highSpeed;
@@ -189,7 +173,6 @@ class Raiju extends Ghost {
 class Moroi extends Ghost {
   constructor() {
     super({
-      ...DEFUALT_PARAMS,
       id: 7,
       enName: 'Moroi',
       jpName: 'モーロイ',
@@ -198,11 +181,11 @@ class Moroi extends Ghost {
     });
   }
 
-  calculateSpeed(): number {
-    const { highSpeed, lowSpeed, san } = this.params;
+  calculateSpeed({ san }: CalculateSpeedArgs): number {
+    const { highSpeed, lowSpeed } = this.params;
 
-    // 45%以上の場合は1.5m/s
-    // 5%以下の場合は2.25m/s
+    // 45%以上の場合はlowSpeed
+    // 5%以下の場合はhighSpeed
     // それ以外の場合は、SAN値に応じて速度が変化する
     if (san >= 45) {
       return lowSpeed;
@@ -217,7 +200,6 @@ class Moroi extends Ghost {
 class Deogen extends Ghost {
   constructor() {
     super({
-      ...DEFUALT_PARAMS,
       id: 8,
       enName: 'Deogen',
       jpName: 'デオヘン',
@@ -226,10 +208,12 @@ class Deogen extends Ghost {
     });
   }
 
-  calculateSpeed(): number {
-    const { highSpeed, lowSpeed, distance } = this.params;
+  calculateSpeed({ distance }: CalculateSpeedArgs): number {
+    const { highSpeed, lowSpeed } = this.params;
 
-    // 近付くまでが早い(6m)、近付いてから遅い(2.5m)、6m~2.5mの間は速度が変化する
+    // 6m以上の場合はhighSpeed
+    // 2.5m以下の場合はlowSpeed
+    // それ以外の場合は距離に応じて速度が変化する
     if (distance >= 6) {
       return highSpeed;
     } else if (distance >= 2.5) {
@@ -244,7 +228,6 @@ class Deogen extends Ghost {
 class Thaye extends Ghost {
   constructor() {
     super({
-      ...DEFUALT_PARAMS,
       id: 9,
       enName: 'Thaye',
       jpName: 'セーイ',
@@ -253,11 +236,12 @@ class Thaye extends Ghost {
     });
   }
 
-  calculateSpeed(): number {
-    const { highSpeed, lowSpeed, elapsedTime } = this.params;
+  calculateSpeed({ elapsedTime }: CalculateSpeedArgs): number {
+    const { highSpeed, lowSpeed } = this.params;
 
-    // 行動	年齢0（初期）	年齢ごとに追加	10歳以上
-    // 速度	2.75m/秒	-0.175m/秒	1m/秒
+    // 0分の場合はhighSpeed
+    // 10分以上の場合はlowSpeed
+    // 10分未満の場合は経過時間に応じて速度が変化する
     if (elapsedTime < 10) {
       return highSpeed - 0.175 * elapsedTime;
     } else {
