@@ -142,7 +142,7 @@ class Raiju extends Ghost {
     super({
       id: 6,
       enName: 'Raiju',
-      jaName: 'ライジュウ',
+      jaName: '雷獣',
       description: '6m以内に電子機器があると加速する',
       lowSpeed: 1.7,
       highSpeed: 2.5,
