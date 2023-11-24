@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 const BASE_TEMPO = 9.2 as const;
 
@@ -32,6 +32,11 @@ export const useFootsteps = () => {
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout>();
   const [now, setNow] = useState<Date>();
   const [stopTime, setStopTime] = useState<Date>();
+
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => {
+    setIsClient(true);
+  });
 
   // 全ての音声を停止する関数
   const stopSounds = useCallback(() => {
@@ -71,10 +76,12 @@ export const useFootsteps = () => {
   );
 
   // フレームごとに現在時刻を更新
-  requestAnimationFrame(() => {
-    setNow(new Date());
-    if (stopTime && now && stopTime.getTime() < now.getTime()) stopSounds();
-  });
+  if (isClient) {
+    requestAnimationFrame(() => {
+      setNow(new Date());
+      if (stopTime && now && stopTime.getTime() < now.getTime()) stopSounds();
+    });
+  }
 
   return {
     playSounds,
