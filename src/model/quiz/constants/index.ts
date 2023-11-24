@@ -14,11 +14,12 @@ export const difficulties: Difficulties = {
   },
   intermediate: {
     jaName: difficultiesNames.intermediate,
-    description: '中級者向け。<wbr />ゴースト一覧なし。',
+    description: '中級者向け。<wbr />ゴースト一覧の情報が少なくなる。',
   },
   professional: {
     jaName: difficultiesNames.professional,
-    description: '上級者向け。<wbr />絞り込み機能が複雑化。',
+    description:
+      '上級者向け。<wbr />ゴースト一覧なし。<wbr />絞り込み機能の補助メモリが非表示になる。',
   },
   nightmare: {
     jaName: difficultiesNames.nightmare,

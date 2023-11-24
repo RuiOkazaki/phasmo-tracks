@@ -62,7 +62,7 @@ const Presenter: FC = () => {
         calculateSpeedArgs={calculateSpeedArgs}
         setCalculateSpeedArgs={setCalculateSpeedArgs}
       />
-      <GhostListAccordion />
+      <GhostListAccordion difficulty={difficulty} />
 
       <Stack gap={8}>
         <Group gap={8} align="end" wrap="nowrap">

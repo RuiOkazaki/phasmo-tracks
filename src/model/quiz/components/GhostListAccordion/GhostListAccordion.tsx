@@ -5,8 +5,15 @@ import type { FC } from 'react';
 
 import { ghosts } from '@/model/ghost/classes/index';
 import { GhostListItem } from '@/model/ghost/components/GhostListItem';
+import { DifficultyEnName } from '@/model/quiz/type/index';
 
-const Presenter: FC = () => {
+type Props = {
+  difficulty: DifficultyEnName;
+};
+
+const Presenter: FC<Props> = ({ difficulty }) => {
+  if (difficulty === 'professional' || difficulty === 'nightmare') return null;
+
   return (
     <Accordion variant="separated">
       <Accordion.Item value="ghost-list">
@@ -20,6 +27,8 @@ const Presenter: FC = () => {
             <SimpleGrid cols={{ base: 1, xs: 2 }}>
               {ghosts.map(({ params }) => (
                 <GhostListItem
+                  hideDescription={difficulty !== 'amateur'}
+                  hideDetailButton={difficulty !== 'amateur'}
                   disablePlayFootsteps
                   inAccordion
                   key={params.id}

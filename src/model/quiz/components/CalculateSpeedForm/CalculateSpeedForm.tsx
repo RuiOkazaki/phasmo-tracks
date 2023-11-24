@@ -16,6 +16,60 @@ type Props = {
   difficulty: DifficultyEnName;
 };
 
+// 難易度を入れると各項目のmarksが返却される関数
+const getMarks = (difficulty: DifficultyEnName) => {
+  switch (difficulty) {
+    case 'amateur':
+    case 'intermediate':
+      return {
+        distance: [
+          { value: 0, label: '0m' },
+          { value: 2.5 },
+          { value: 3 },
+          { value: 12 },
+          { value: 15, label: '15m' },
+        ],
+        elapsedTime: [
+          { value: 0, label: '0分' },
+          { value: 10 },
+          { value: 20, label: '20分' },
+        ],
+        san: [
+          { value: 0, label: '0%' },
+          { value: 5 },
+          { value: 45 },
+          { value: 100, label: '100%' },
+        ],
+        temperature: [
+          { value: -5, label: '-5℃' },
+          { value: 0 },
+          { value: 15 },
+          { value: 20, label: '20℃' },
+        ],
+      };
+    case 'professional':
+    case 'nightmare':
+      return {
+        distance: [
+          { value: 0, label: '0m' },
+          { value: 15, label: '15m' },
+        ],
+        elapsedTime: [
+          { value: 0, label: '0分' },
+          { value: 20, label: '20分' },
+        ],
+        san: [
+          { value: 0, label: '0%' },
+          { value: 100, label: '100%' },
+        ],
+        temperature: [
+          { value: -5, label: '-5℃' },
+          { value: 20, label: '20℃' },
+        ],
+      };
+  }
+};
+
 const Presenter: FC<Props> = ({
   calculateSpeedArgs,
   setCalculateSpeedArgs,
@@ -32,13 +86,7 @@ const Presenter: FC<Props> = ({
           onChange={(value) => setCalculateSpeedArgs({ distance: value })}
           step={0.5}
           size="lg"
-          marks={[
-            { value: 0, label: '0m' },
-            { value: 2.5 },
-            { value: 3 },
-            { value: 12 },
-            { value: 15, label: '15m' },
-          ]}
+          marks={getMarks(difficulty).distance}
           min={0}
           max={15}
         />
@@ -52,11 +100,7 @@ const Presenter: FC<Props> = ({
           onChange={(value) => setCalculateSpeedArgs({ elapsedTime: value })}
           size="lg"
           step={1}
-          marks={[
-            { value: 0, label: '0分' },
-            { value: 10 },
-            { value: 20, label: '20分' },
-          ]}
+          marks={getMarks(difficulty).elapsedTime}
           min={0}
           max={20}
         />
@@ -70,12 +114,7 @@ const Presenter: FC<Props> = ({
           onChange={(value) => setCalculateSpeedArgs({ san: value })}
           size="lg"
           step={5}
-          marks={[
-            { value: 0, label: '0%' },
-            { value: 5 },
-            { value: 45 },
-            { value: 100, label: '100%' },
-          ]}
+          marks={getMarks(difficulty).san}
           min={0}
           max={100}
         />
@@ -89,12 +128,7 @@ const Presenter: FC<Props> = ({
           onChange={(value) => setCalculateSpeedArgs({ temperature: value })}
           size="lg"
           step={5}
-          marks={[
-            { value: -5, label: '-5℃' },
-            { value: 0 },
-            { value: 15 },
-            { value: 20, label: '20℃' },
-          ]}
+          marks={getMarks(difficulty).temperature}
           min={-5}
           max={20}
         />
