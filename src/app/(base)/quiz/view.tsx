@@ -65,7 +65,7 @@ const Presenter: FC = () => {
       <GhostListAccordion />
 
       <Stack gap={8}>
-        <Group align="end" wrap="nowrap">
+        <Group gap={8} align="end" wrap="nowrap">
           <Select
             w="100%"
             placeholder="ゴーストの正体"
