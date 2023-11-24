@@ -1,5 +1,3 @@
-'use client';
-
 import { NextPage } from 'next';
 
 import { View } from './view';
