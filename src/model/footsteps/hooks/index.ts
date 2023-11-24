@@ -36,7 +36,7 @@ export const useFootsteps = () => {
   const [isClient, setIsClient] = useState(false);
   useEffect(() => {
     setIsClient(true);
-  });
+  }, []);
 
   // 全ての音声を停止する関数
   const stopSounds = useCallback(() => {
