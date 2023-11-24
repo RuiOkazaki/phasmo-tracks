@@ -17,7 +17,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       >
         <Title>Phasmo Tracks</Title>
       </AppShell.Header>
-      <AppShell.Main>{children}</AppShell.Main>
+      <AppShell.Main
+        style={{
+          padding: 0,
+          paddingTop: 60,
+        }}
+      >
+        {children}
+      </AppShell.Main>
     </AppShell>
   );
 };

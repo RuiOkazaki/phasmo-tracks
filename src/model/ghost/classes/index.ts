@@ -17,8 +17,7 @@ class Jinn extends Ghost {
       id: 1,
       enName: 'Jinn',
       jaName: 'ジン',
-      description:
-        'ジンがターゲットを認識している状態で3mの範囲に入ると減速する',
+      description: 'ターゲットを認識している状態で3mの範囲に入ると減速する',
       lowSpeed: 1.7,
       highSpeed: 2.5,
       tags: [tags.distance, tags.looking],
@@ -127,10 +126,11 @@ class TheTwins extends Ghost {
     });
   }
 
-  calculateSpeed(): number {
+  calculateSpeed({ randomSeedDate }: CalculateSpeedArgs): number {
     const { highSpeed, lowSpeed } = this.params;
 
-    if (Math.random() < 0.5) {
+    // MEMO: Math.random()が固定化されてしまっているためDateで判断する
+    if (randomSeedDate.getSeconds() % 2 === 0) {
       return highSpeed;
     } else {
       return lowSpeed;
@@ -143,7 +143,7 @@ class Raiju extends Ghost {
     super({
       id: 6,
       enName: 'Raiju',
-      jaName: 'ライジュウ',
+      jaName: '雷獣',
       description: '6m以内に電子機器があると加速する',
       lowSpeed: 1.7,
       highSpeed: 2.5,

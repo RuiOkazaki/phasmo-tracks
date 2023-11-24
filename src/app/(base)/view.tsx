@@ -37,19 +37,17 @@ const Presenter: FC = () => {
   }, [sort]);
 
   return (
-    <>
-      <Stack>
-        <Group align="center" justify="space-between">
-          <Title order={2}>足の速さで特定出来るゴースト一覧</Title>
-          <Group>
-            <SortSelect sort={sort} setSort={setSort} />
-            <FilterSelect filter={filter} setFilter={setFilter} />
-          </Group>
+    <Stack p="md">
+      <Group align="center" justify="space-between">
+        <Title order={2}>足の速さで特定出来るゴースト一覧</Title>
+        <Group>
+          <SortSelect sort={sort} setSort={setSort} />
+          <FilterSelect filter={filter} setFilter={setFilter} />
         </Group>
+      </Group>
 
-        <GhostList ghosts={sortedGhosts} filter={filter ?? ''} />
-      </Stack>
-    </>
+      <GhostList ghosts={sortedGhosts} filter={filter ?? ''} />
+    </Stack>
   );
 };
 

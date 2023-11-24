@@ -24,6 +24,8 @@ export type CalculateSpeedArgs = {
   san: number;
   // 開始してからの経過時間(分)
   elapsedTime: number;
+  // ランダムな計算に使うDateオブジェクト
+  randomSeedDate: Date;
 };
 
 export { Ghost } from '../classes';
