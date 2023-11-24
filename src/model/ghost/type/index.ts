@@ -26,6 +26,8 @@ export type CalculateSpeedArgs = {
   elapsedTime: number;
 };
 
+export { Ghost } from '../classes';
+
 export type TagJaName = (typeof tagNames)[keyof typeof tagNames];
 
 export type Tag = {

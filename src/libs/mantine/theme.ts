@@ -1,21 +1,15 @@
 'use client';
 
-import { ActionIcon, Button, createTheme } from '@mantine/core';
+import { Select, createTheme } from '@mantine/core';
 
 export const theme = createTheme({
   components: {
-    Button: Button.extend({
+    Select: Select.extend({
       defaultProps: {
-        radius: 'lg',
-        color: 'gray',
-        fw: 'bold',
-        variant: 'subtle',
-      },
-    }),
-    ActionIcon: ActionIcon.extend({
-      defaultProps: {
-        radius: 'lg',
-        color: 'gray',
+        clearable: true,
+        searchable: true,
+        nothingFoundMessage: '見つかりませんでした',
+        placeholder: '値を選択してください',
       },
     }),
   },

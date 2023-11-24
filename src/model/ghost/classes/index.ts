@@ -1,7 +1,7 @@
 import { tags } from '../constants';
 import { GhostParameter, CalculateSpeedArgs } from '../type';
 
-abstract class Ghost {
+export abstract class Ghost {
   params: GhostParameter;
 
   constructor(params: GhostParameter) {
