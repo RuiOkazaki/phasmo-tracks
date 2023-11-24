@@ -15,10 +15,12 @@ import {
   IconPlayerStopFilled,
 } from '@tabler/icons-react';
 import { useSearchParams } from 'next/navigation';
-import { memo, useState } from 'react';
+import { memo, useCallback, useMemo, useRef, useState } from 'react';
 
 import type { FC } from 'react';
 
+import { useFootsteps } from '@/model/footsteps/hooks';
+import { ghosts } from '@/model/ghost/classes/index';
 import { difficultiesNames } from '@/model/quiz/constants/index';
 import { DifficultyEnName } from '@/model/quiz/type/index';
 
@@ -36,15 +38,29 @@ const Presenter: FC = () => {
     isLooking: false,
   });
 
+  const { current: ghost } = useRef(
+    ghosts[Math.floor(Math.random() * ghosts.length)],
+  );
+  const footstepsSpeed = useMemo(
+    () => ghost?.calculateSpeed(calculateSpeedArgs),
+    [calculateSpeedArgs, ghost],
+  );
+
+  const { playSounds, stopSounds } = useFootsteps();
+
   const [isPlaying, setIsPlaying] = useState(false);
-  const handlePlay = () => {
+  const handlePlay = useCallback(() => {
+    if (!footstepsSpeed) return;
+
+    if (!isPlaying) playSounds(footstepsSpeed);
+    else stopSounds();
     setIsPlaying((prev) => !prev);
-  };
+  }, [footstepsSpeed, isPlaying, playSounds, stopSounds]);
 
   return (
     <>
       <Title order={2}>難易度: {difficultiesNames[difficulty]}</Title>
-      <SimpleGrid cols={{ base: 1, sm: 2 }}>
+      <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="xl" verticalSpacing="md">
         <Stack gap="2">
           <Text fz="md">ゴーストとの距離(m)</Text>
           <Slider
@@ -73,7 +89,7 @@ const Presenter: FC = () => {
             value={calculateSpeedArgs.elapsedTime}
             onChange={(value) => setCalculateSpeedArgs({ elapsedTime: value })}
             size="lg"
-            step={2}
+            step={1}
             marks={[
               { value: 0, label: '0分' },
               { value: 10 },
@@ -107,8 +123,8 @@ const Presenter: FC = () => {
           <Slider
             mb="lg"
             label={(n) => `${n}℃`}
-            value={calculateSpeedArgs.san}
-            onChange={(value) => setCalculateSpeedArgs({ san: value })}
+            value={calculateSpeedArgs.temperature}
+            onChange={(value) => setCalculateSpeedArgs({ temperature: value })}
             size="lg"
             step={5}
             marks={[
