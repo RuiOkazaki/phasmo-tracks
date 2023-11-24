@@ -14,7 +14,7 @@ const Presenter: FC = () => {
       {Object.keys(difficulties).map((key) => (
         <Paper
           key={key}
-          href={`quiz?difficulty=${key}`}
+          href={`/quiz?difficulty=${key}`}
           component={Link}
           withBorder
           p={{ base: 'md', sm: 'xl' }}
