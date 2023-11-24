@@ -1,8 +1,10 @@
 'use client';
 
 import {
+  Accordion,
   Button,
   Checkbox,
+  ScrollArea,
   SimpleGrid,
   Slider,
   Stack,
@@ -21,6 +23,7 @@ import type { FC } from 'react';
 
 import { useFootsteps } from '@/model/footsteps/hooks';
 import { ghosts } from '@/model/ghost/classes/index';
+import { GhostListItem } from '@/model/ghost/components/GhostListItem';
 import { difficultiesNames } from '@/model/quiz/constants/index';
 import { DifficultyEnName } from '@/model/quiz/type/index';
 
@@ -160,6 +163,29 @@ const Presenter: FC = () => {
           />
         </Stack>
       </SimpleGrid>
+      <Accordion variant="separated">
+        <Accordion.Item value="ghost-list">
+          <Accordion.Control>
+            <Text fz="sm" fw="bold">
+              ゴースト一覧
+            </Text>
+          </Accordion.Control>
+          <Accordion.Panel>
+            <ScrollArea h={300}>
+              <SimpleGrid cols={{ base: 1, xs: 2 }}>
+                {ghosts.map(({ params }) => (
+                  <GhostListItem
+                    disablePlayFootsteps
+                    inAccordion
+                    key={params.id}
+                    ghost={params}
+                  />
+                ))}
+              </SimpleGrid>
+            </ScrollArea>
+          </Accordion.Panel>
+        </Accordion.Item>
+      </Accordion>
       <Button
         onClick={handlePlay}
         size="lg"

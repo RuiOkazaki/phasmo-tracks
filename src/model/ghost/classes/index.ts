@@ -17,8 +17,7 @@ class Jinn extends Ghost {
       id: 1,
       enName: 'Jinn',
       jaName: 'ジン',
-      description:
-        'ジンがターゲットを認識している状態で3mの範囲に入ると減速する',
+      description: 'ターゲットを認識している状態で3mの範囲に入ると減速する',
       lowSpeed: 1.7,
       highSpeed: 2.5,
       tags: [tags.distance, tags.looking],

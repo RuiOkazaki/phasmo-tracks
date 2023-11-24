@@ -12,7 +12,7 @@ const loadFootstepsAudio = () => {
 const playAudio = (audio: HTMLAudioElement) => {
   audio.play();
   audio.onended = () => {
-    audio.src = '';
+    audio.remove();
   };
 };
 
