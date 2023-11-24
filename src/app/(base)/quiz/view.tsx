@@ -35,6 +35,7 @@ const CALCULATE_SPEED_ARGS_DEFAULT: CalculateSpeedArgs = {
   temperature: 20,
   isElectronic: false,
   isLooking: false,
+  randomSeedDate: new Date(),
 };
 
 const Presenter: FC = () => {
@@ -58,10 +59,19 @@ const Presenter: FC = () => {
   const handlePlay = useCallback(() => {
     if (!footstepsSpeed) return;
 
+    // MEMO: ツインズの足音をランダムにするために、randomSeedDateを更新する
+    setCalculateSpeedArgs({ randomSeedDate: new Date() });
+
     if (!isPlaying) playSounds(footstepsSpeed);
     else stopSounds();
     setIsPlaying((prev) => !prev);
-  }, [footstepsSpeed, isPlaying, playSounds, stopSounds]);
+  }, [
+    footstepsSpeed,
+    isPlaying,
+    playSounds,
+    setCalculateSpeedArgs,
+    stopSounds,
+  ]);
 
   const [opened, { open, close }] = useDisclosure(false);
   const [selectedGhost, setSelectedGhost] = useState<Ghost>();

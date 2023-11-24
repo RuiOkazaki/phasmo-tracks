@@ -126,10 +126,11 @@ class TheTwins extends Ghost {
     });
   }
 
-  calculateSpeed(): number {
+  calculateSpeed({ randomSeedDate }: CalculateSpeedArgs): number {
     const { highSpeed, lowSpeed } = this.params;
 
-    if (Math.random() < 0.5) {
+    // MEMO: Math.random()が固定化されてしまっているためDateで判断する
+    if (randomSeedDate.getSeconds() % 2 === 0) {
       return highSpeed;
     } else {
       return lowSpeed;
