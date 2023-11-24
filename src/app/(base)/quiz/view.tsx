@@ -88,11 +88,15 @@ const Presenter: FC = () => {
   }, [open, selectedGhost]);
 
   const handleNext = useCallback(() => {
-    ghostRef.current = ghosts[Math.floor(Math.random() * ghosts.length)];
     setCalculateSpeedArgs(CALCULATE_SPEED_ARGS_DEFAULT);
     setSelectedGhost(undefined);
     setIsAnswered(false);
     close();
+
+    // MEMO: closeのアニメーション(200ms)後にghostRef.currentを更新しないと答えが見えてしまう
+    setTimeout(() => {
+      ghostRef.current = ghosts[Math.floor(Math.random() * ghosts.length)];
+    }, 200);
   }, [close, setCalculateSpeedArgs]);
 
   return (
