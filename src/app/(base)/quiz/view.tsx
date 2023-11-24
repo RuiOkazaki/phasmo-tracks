@@ -186,15 +186,21 @@ const Presenter: FC = () => {
           </Accordion.Panel>
         </Accordion.Item>
       </Accordion>
-      <Button
-        onClick={handlePlay}
-        size="lg"
-        leftSection={
-          isPlaying ? <IconPlayerStopFilled /> : <IconPlayerPlayFilled />
-        }
-      >
-        {isPlaying ? '足音を止める' : '足音を聞く'}
-      </Button>
+      <Stack gap={8}>
+        <Button
+          onClick={handlePlay}
+          leftSection={
+            isPlaying ? (
+              <IconPlayerStopFilled size={16} />
+            ) : (
+              <IconPlayerPlayFilled size={16} />
+            )
+          }
+        >
+          {isPlaying ? '足音を止める' : '足音を聞く'}
+        </Button>
+        <Button variant="outline">回答する</Button>
+      </Stack>
     </>
   );
 };
