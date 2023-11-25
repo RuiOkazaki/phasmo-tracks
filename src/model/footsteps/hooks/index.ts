@@ -9,11 +9,15 @@ const loadFootstepsAudio = () => {
   return footsteps;
 };
 
+//オーディオインスタンス
+const footstepsAudio = loadFootstepsAudio();
+
 const playAudio = (audio: HTMLAudioElement) => {
+  if (!audio.paused) {
+    audio.pause();
+    audio.currentTime = 0; //タイム0
+  }
   audio.play();
-  audio.onended = () => {
-    audio.remove();
-  };
 };
 
 // 足音の間隔を計算する関数
@@ -48,16 +52,14 @@ export const useFootsteps = () => {
   // 特定の間隔で足音を再生する関数
   const playSounds = useCallback((speed: number, speedModifier = 1.0) => {
     if (speed < 0) return;
-
-    // 初回の足音を再生
-    const footstepsAudio = loadFootstepsAudio();
-    playAudio(footstepsAudio);
+    // 新しい音を再生する前に前の音を停止
+    footstepsAudio.pause();
+    footstepsAudio.currentTime = 0;
 
     // 一定間隔おきに足音を再生
     const interval = calcInterval(speed, speedModifier);
     const _intervalId = setInterval(() => {
-      const footstepsAudio = loadFootstepsAudio();
-      playAudio(footstepsAudio);
+      playAudio(footstepsAudio); // オーディオインスタンスを再利用
     }, interval);
     setIntervalId(_intervalId);
   }, []);
